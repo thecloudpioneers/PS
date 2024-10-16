@@ -29,10 +29,12 @@ Import-Module -Name PSWindowsUpdate -ErrorAction SilentlyContinue
 # Check for Windows updates, download, and install them
 Write-Host "Checking for Windows updates..." -ForegroundColor Yellow
 Get-WindowsUpdate -AcceptAll -Install -AutoReboot
-
+Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -AutoReboot
+Restart-Service wuauserv -ErrorAction Stop
 # Check for updates again after the first reboot
 Write-Host "Checking for Windows updates again after reboot..." -ForegroundColor Yellow
-Get-WindowsUpdate -AcceptAll -Install -AutoReboot
+Get-WindowsUpdate -Download -AcceptAll
+Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install  -AutoReboot
 
 # Perform a disk check and schedule it for the next reboot if necessary
 Write-Host "Performing disk check..." -ForegroundColor Yellow
