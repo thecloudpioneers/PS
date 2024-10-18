@@ -128,8 +128,14 @@ Function Generate-PnPSitePermissionRpt()
         [Parameter(Mandatory=$false)] [switch] $IncludeInheritedPermissions       
     ) 
     Try {
-        #Connect to the Site
-        Connect-PnPOnline -Url $SiteUrl -ClientId 73eadc33-26bb-4dd3-8af0-a08833a031fa
+        # Define credentials
+        $Email = "onedrivesharepointaudit@accesslex.org"
+        $Password = "!%j0m6lp!w/Wdd%!7q"
+        $SecurePassword = ConvertTo-SecureString $Password -AsPlainText -Force
+        $Cred = New-Object System.Management.Automation.PSCredential ($Email, $SecurePassword)
+
+        # Connect to PnP Online
+        Connect-PnPOnline -Url $SiteUrl -ClientId 73eadc33-26bb-4dd3-8af0-a08833a031fa -Credentials $Cred
         #Get the Web
         $Web = Get-PnPWeb
  
