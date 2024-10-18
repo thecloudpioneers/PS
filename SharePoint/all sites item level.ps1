@@ -260,14 +260,20 @@ Function Generate-PnPSitePermissionRpt()
    }
 }
 
+
+####################################### - REGION PARAMTERS - ########################################
 #Connect to Admin Center
-$TenantAdminURL = "https://crescent-admin.SharePoint.com"
-$Cred = Get-Credential
-Connect-PnPOnline -Url $TenantAdminURL -Credentials $Cred
-   
+ ################## - Connect to PnP Powershell Azure AD - ##################
+# Define credentials
+$TenantAdminURL = "https://example-admin.sharepoint.com"
+$Email = ""
+$Password = ""
+$Cred = New-Object System.Management.Automation.PSCredential ($Email, $SecurePassword)
+# Connect to PnP Online
+Connect-PnPOnline -Url $TenantAdminURL -ClientId 73eadc33-26bb-4dd3-8af0-a08833a031fa -Credentials $Cred
+################## - Connect to PnP Powershell Azure AD - ##################
 #Get All Site collections - Exclude: Seach Center, Redirect site, Mysite Host, App Catalog, Content Type Hub, eDiscovery and Bot Sites
 $SitesCollections = Get-PnPTenantSite | Where -Property Template -NotIn ("SRCHCEN#0","REDIRECTSITE#0", "SPSMSITEHOST#0", "APPCATALOG#0", "POINTPUBLISHINGHUB#0", "EDISC#0", "STS#-1")
-   
 #Loop through each site collection
 ForEach($Site in $SitesCollections)
 {
@@ -279,3 +285,19 @@ ForEach($Site in $SitesCollections)
     $ReportFile = "C:\Temp\$($Site.URL.Replace('https://','').Replace('/','_')).CSV"
     Generate-PnPSitePermissionRpt -SiteURL $Site.URL -ReportFile $ReportFile -Recursive
 }
+####################################### - REGION PARAMTERS - ########################################
+
+####################################### - REGION PARAMTERS - ########################################
+
+
+
+
+
+####### FOLDERS ####################
+#Call the function to generate permission report
+Generate-PnPSitePermissionRpt -SiteURL $SiteURL -ReportFile $ReportFile -Recursive
+#Generate-PnPSitePermissionRpt -SiteURL $SiteURL -ReportFile $ReportFile -Recursive -ScanItemLevel -IncludeInheritedPermissions
+########## ITEMS #################
+#Call the function to generate permission report
+Generate-PnPSitePermissionRpt -SiteURL $SiteURL -ReportFile $ReportFile -Recursive
+#Generate-PnPSitePermissionRpt -SiteURL $SiteURL -ReportFile $ReportFile -Recursive -ScanItemLevel -IncludeInheritedPermissions
