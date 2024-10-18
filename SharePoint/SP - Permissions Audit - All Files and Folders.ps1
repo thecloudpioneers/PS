@@ -120,7 +120,7 @@ Function Generate-PnPSitePermissionRpt()
 [cmdletbinding()]
  
     Param 
-    (   
+    (   Gen
         [Parameter(Mandatory=$false)] [String] $SiteURL,
         [Parameter(Mandatory=$false)] [String] $ReportFile,        
         [Parameter(Mandatory=$false)] [switch] $Recursive,
